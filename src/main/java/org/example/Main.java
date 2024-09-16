@@ -1,11 +1,11 @@
 package org.example;
 
-import java.util.Arrays;
 import java.lang.Math;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        imprimirMapa();
+        menu();
     }
 
     public static String[][] inicializarMapa() {
@@ -117,4 +117,31 @@ public class Main {
         }
         return mapa;
     }
+    public static void menu() {
+        Scanner scanner = new Scanner(System.in); // Crear Scanner una vez
+        String opcion = "";
+
+        System.out.println("Bienvenido a Escapa del Cuadrado!");
+        System.out.println("Ingresa una opción para comenzar a jugar o salir del programa.");
+
+        while (!opcion.equals("2")) {
+            System.out.println("1. Iniciar la partida");
+            System.out.println("2. Salir del programa");
+
+            opcion = scanner.nextLine();
+
+            if (opcion.equals("1")) {
+                imprimirMapa();
+            } else if (opcion.equals("2")) {
+                System.out.println("Saliendo del programa...");
+                break;
+            } else {
+                System.out.println("Opción no válida, por favor ingresa 1 o 2.");
+            }
+        }
+
+        scanner.close(); // Cerrar Scanner después de usarlo
+    }
+
 }
+

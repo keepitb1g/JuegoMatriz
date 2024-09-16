@@ -38,7 +38,6 @@ public class Main {
         }
     }
 
-
     public static void llenarMapa(String[][] mapa) {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -73,6 +72,21 @@ public class Main {
             }
         }
         return mapa;
+    }
+
+    public static int[] rastrearSalida(String[][] mapa) {
+        int[] posicionSalida = new int[2];
+
+        for (int i = 0; i < mapa.length; i++) {
+            for (int j = 0; j < mapa[i].length; j++) {
+                if (mapa[i][j].equals("X")) {
+                    posicionSalida[0] = i;
+                    posicionSalida[1] = j;
+                }
+            }
+        }
+
+        return posicionSalida;
     }
 
     public static String[][] generarCofre(String[][] mapa) {
@@ -115,13 +129,13 @@ public class Main {
                     personaje = moverPersonaje(mapa, personaje, enemigos);
 
                     // Condición de victoria
-                    if (personaje[0] == 9 && personaje[1] == 9) {
+                    int[] salida = rastrearSalida(mapa);
+                    if (personaje[0] == salida[0] && personaje[1] == salida[1]) {
                         System.out.println("¡Has llegado a la salida! ¡Ganaste!");
                         jugando = false;
                     }
                 }
-            }
-            else if (opcion.equals("2")) {
+            } else if (opcion.equals("2")) {
                 System.out.println("Saliendo del programa...");
                 break;
             } else {
@@ -178,6 +192,14 @@ public class Main {
                     personaje[1] = nuevaY;
                     mapa[nuevaX][nuevaY] = "J";
                     movimientoValido = true;
+                } else if (mapa[nuevaX][nuevaY].equals("X")) {
+                    // Permitir movimiento a la salida
+                    mapa[jugadorX][jugadorY] = ".";
+                    personaje[0] = nuevaX;
+                    personaje[1] = nuevaY;
+                    mapa[nuevaX][nuevaY] = "J";
+                    System.out.println("¡Has llegado a la salida! ¡Ganaste!");
+                    System.exit(0);
                 } else if (mapa[nuevaX][nuevaY].equals("E")) {
                     for (int[] enemigo : enemigos) {
                         if (enemigo[0] == nuevaX && enemigo[1] == nuevaY) {
@@ -204,6 +226,7 @@ public class Main {
                 }
             }
         }
+
         return personaje;
     }
 
@@ -271,7 +294,7 @@ public class Main {
                     System.out.println("El enemigo te ataca. Tu vida: " + jugador[2]);
                 } else {
                     System.out.println("¡Has derrotado al enemigo!");
-                    mapa[enemigo[0]][enemigo[1]] = "."; // Eliminar al enemigo del mapa
+                    mapa[enemigo[0]][enemigo[1]] = ".";
                     enCombate = false;
                 }
 
@@ -308,7 +331,4 @@ public class Main {
 
         return jugador;
     }
-
-
 }
-
